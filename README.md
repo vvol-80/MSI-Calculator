@@ -113,19 +113,6 @@ py msi_calc_4_3.pyw
 - `Ctrl+C` — копировать
 - `Ctrl+V` — вставить
 
-## Скриншоты (Screenshots)
-
-Добавьте сюда изображения интерфейса:
-
-- `docs/screenshots/main.png`
-- `docs/screenshots/example_1.png`
-
-И вставьте в README, например:
-
-```md
-![Главное окно](docs/screenshots/main.png)
-```
-
 ## Troubleshooting / FAQ
 
 ### Программа запускается, но не видно «скин» / фон
@@ -167,4 +154,5 @@ py msi_calc_4_3.pyw
 
 ## Лицензия (License)
 
-`TODO:` укажите лицензию проекта (например, MIT) и добавьте файл `LICENSE` в корень репозитория.
+`TODO:` MIT.
+
