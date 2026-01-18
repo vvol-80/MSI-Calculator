@@ -145,4 +145,5 @@ The app uses Python’s `eval()` internally to evaluate the expression it builds
 
 ## License
 
-TODO: Add license (e.g., MIT License) and include the full license text here or in `LICENSE`.
+TODO: MIT License.
+
