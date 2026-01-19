@@ -24,7 +24,7 @@ class Calculator:
         self.canvas.pack()
         self.canvas.bind("<Button-1>", lambda e: self.window.focus_set())
 
-        # Фон - ВАЖНОЕ ИЗМЕНЕНИЕ!
+        # Фон
         # Определяем базовую директорию, где находится скрипт
         if getattr(sys, 'frozen', False):
             # Если программа упакована в EXE (PyInstaller)
@@ -60,8 +60,7 @@ class Calculator:
             # Создаем серый фон на случай ошибки
             self.canvas.create_rectangle(0, 0, 412, 469, fill='#2b2b2b', outline='')
         
-        # ... остальной код без изменений ...
-
+       
         self.create_button_regions()
 
         self.memory = 0.0
@@ -98,8 +97,7 @@ class Calculator:
             return self.paste_from_clipboard(event)
 
     def handle_key(self, event):
-    # Отладка (можно удалить потом)
-    # print(f"keysym={event.keysym}, char={repr(event.char)}")
+
 
     # Игнорируем служебные клавиши
         if event.keysym in ('Control_L', 'Control_R', 'Alt_L', 'Alt_R', 'Shift_L', 'Shift_R'):
