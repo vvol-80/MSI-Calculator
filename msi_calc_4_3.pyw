@@ -2,7 +2,7 @@
 """
 Created on Sun Jan 18 10:52:47 2026
 
-@author: mrwol
+@author: vvol-80
 """
 
 
@@ -403,4 +403,5 @@ class Calculator:
             self.canvas.tag_bind(btn['tag'], '<Button-1>', lambda e, cmd=btn['command']: cmd())
 
 if __name__ == "__main__":
+
     Calculator()
