@@ -16,7 +16,7 @@ import sys  # тоже пригодится для sys._MEIPASS если исп�
 class Calculator:
     def __init__(self):
         self.window = tk.Tk()
-        self.window.title("MSI Calculator 4.4")
+        self.window.title("MSI Calculator 4.5")
         self.window.resizable(False, False)
         self.window.geometry("412x471")
 
@@ -137,19 +137,36 @@ class Calculator:
         # Добавляем автоматическую замену запятой на точку
         if char == ',':
             char = '.'
+        
         if self.is_operator(char):
-        # Специальный случай: начало с минуса
+            # Специальный случай: начало с минуса
             if char == '-' and not self.full_expression and not self.current_input:
                 self.current_input = '-'
                 self.pending_operator = ''
                 self.waiting_for_operand = False
             elif self.current_input or self.full_expression:
+                # НОВАЯ ЛОГИКА: вычисляем предыдущую операцию перед добавлением новой
+                if self.full_expression and self.current_input and not self.waiting_for_operand:
+                    # Выполняем накопленное выражение
+                    expr = self.full_expression + self.current_input
+                    try:
+                        result = eval(expr)
+                        self.current_input = self.format_result(result)
+                        self.full_expression = ''
+                    except:
+                        self.current_input = 'Error'
+                        self.full_expression = ''
+                        self.pending_operator = ''
+                        self.waiting_for_operand = False
+                        self.update_display()
+                        return
+                
                 self.pending_operator = char
-                if not self.waiting_for_operand:  # ← Новый if: добавляем только если НЕ ждём операнда (т.е. после числа)
+                if not self.waiting_for_operand:
                     if self.current_input:
-                        self.full_expression += self.current_input + char
-                    self.waiting_for_operand = True
-                else:  # ← Новый else: если ждём операнда (после предыдущего оператора), просто заменяем последний оператор
+                        self.full_expression = self.current_input + char
+                        self.waiting_for_operand = True
+                else:
                     if self.full_expression and self.is_operator(self.full_expression[-1]):
                         self.full_expression = self.full_expression[:-1] + char
         else:
@@ -158,7 +175,7 @@ class Calculator:
                 self.waiting_for_operand = False
             if char == '.' and '.' in self.current_input:
                 return
-        # Если после = вводим число — сбрасываем всё
+            # Если после = вводим число — сбрасываем всё
             if self.full_expression == '' and self.pending_operator == '' and self.current_input and not self.current_input.replace('.','').replace('-','').isdigit():
                 self.current_input = ''
             self.current_input += char
