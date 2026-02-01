@@ -16,7 +16,7 @@ import sys  # тоже пригодится для sys._MEIPASS если исп�
 class Calculator:
     def __init__(self):
         self.window = tk.Tk()
-        self.window.title("MSI Calculator 4.3")
+        self.window.title("MSI Calculator 4.4")
         self.window.resizable(False, False)
         self.window.geometry("412x471")
 
@@ -109,7 +109,7 @@ class Calculator:
         keysym = event.keysym
 
     # Цифры и точка — по char
-        if key in '0123456789.':
+        if key in '0123456789.,':  # Добавили запятую
             self.append(key)
     # Операторы — по keysym (для всех раскладок и numpad)
         elif keysym in ('plus', 'KP_Add'):
@@ -134,6 +134,9 @@ class Calculator:
             self.square_root()
 
     def append(self, char):
+        # Добавляем автоматическую замену запятой на точку
+        if char == ',':
+            char = '.'
         if self.is_operator(char):
         # Специальный случай: начало с минуса
             if char == '-' and not self.full_expression and not self.current_input:
@@ -309,17 +312,19 @@ class Calculator:
     def paste_from_clipboard(self, event=None):
         try:
             content = self.window.clipboard_get()
-            allowed = "0123456789.-"  # Добавил минус
+            allowed = "0123456789.,-"  # Добавили запятую
             cleaned = ''.join(c for c in content if c in allowed)
+            # Заменяем запятую на точку после очистки
+            cleaned = cleaned.replace(',', '.')
             if cleaned:
                 self.current_input = cleaned
                 self.pending_operator = ''
                 self.full_expression = ''
-                self.waiting_for_operand = False  # ← Важно!
+                self.waiting_for_operand = False
                 self.update_display()
         except tk.TclError:
             pass
-        return "break"  
+        return "break"
 
     def format_result(self, result):
         if isinstance(result, (int, float)):
