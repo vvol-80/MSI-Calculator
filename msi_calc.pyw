@@ -16,9 +16,34 @@ import sys  # тоже пригодится для sys._MEIPASS если исп�
 class Calculator:
     def __init__(self):
         self.window = tk.Tk()
-        self.window.title("MSI Calculator 4.5")
+        self.window.title("MSI Calculator 4.6")
         self.window.resizable(False, False)
         self.window.geometry("412x471")
+        
+                # Устанавливаем иконку окна
+        if getattr(sys, 'frozen', False):
+            # Если программа упакована в EXE (PyInstaller)
+            base_dir = sys._MEIPASS
+        else:
+            # Если запущен как скрипт Python
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Полный путь к иконке
+        icon_path = os.path.join(base_dir, "msi.ico")
+        
+        # Проверяем существование файла иконки
+        if not os.path.exists(icon_path):
+            # Если не нашли, пробуем искать в рабочей директории
+            icon_path = os.path.join(os.getcwd(), "msi.ico")
+        
+        try:
+            if os.path.exists(icon_path):
+                self.window.iconbitmap(icon_path)
+                print(f"Иконка загружена из: {icon_path}")
+            else:
+                print(f"ПРЕДУПРЕЖДЕНИЕ: Файл иконки не найден: {icon_path}")
+        except Exception as e:
+            print(f"Ошибка загрузки иконки: {e}")
 
         self.canvas = tk.Canvas(self.window, width=412, height=469)
         self.canvas.pack()
